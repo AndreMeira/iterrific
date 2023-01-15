@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Protocol, TypeVar
 
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 
 class TickProtocol(Protocol):
@@ -11,5 +11,3 @@ class TickProtocol(Protocol):
 
 class TimestampedTickProtocol(Protocol[T]):
     tick: datetime
-
-

@@ -1,11 +1,11 @@
 from functools import partial
-from typing import Callable, Concatenate, Iterable, ParamSpec, TypeVar
+from typing import Callable, Concatenate, ParamSpec, TypeVar
+from iterrific.types.common import Stream
 
 
 SRC = TypeVar('SRC')
 DST = TypeVar('DST')
 P = ParamSpec('P')
-Stream = Iterable[SRC]
 Rest = ParamSpec('Rest')
 SplitableParams = Concatenate[Stream[SRC], Rest]
 

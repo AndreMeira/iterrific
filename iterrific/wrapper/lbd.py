@@ -2,6 +2,7 @@ from functools import partial as _
 from operator import itemgetter
 from typing import Any, Callable, Optional, TypeVar, Union, Iterable
 
+
 T = TypeVar("T")
 G = TypeVar("G")
 
@@ -60,7 +61,7 @@ class Lbd:
             self(x) / type(self).cast(y)(x)
         )
 
-    def __rdiv__(self, y: Union[Any, 'Lbd']) -> 'Lbd':
+    def __rtruediv__(self, y: Union[Any, 'Lbd']) -> 'Lbd':
         return type(self)(
             lambda x:
             type(self).cast(y)(x) / self(x)
@@ -115,7 +116,7 @@ class Lbd:
         # @FIXME correct type please
         if key is ...:
             return self.ALL
-        if isinstance(key, Callable):
+        if isinstance(key, Callable):  # type: ignore[arg-type]
             f = _(filter, key)
             return type(self)(f)
         return type(self)(
@@ -162,23 +163,15 @@ class LbdWrapper:
 
 class PartialWrapper:
 
-    def __getitem__(
-        self,
-        func: Callable[..., G]
-    ) -> Callable[..., Lbd]:
-        return lambda *args: Lbd(lambda x: func(
-            *type(self).evaluate(args, x)
-        ))
+    def __getitem__(self, func: Callable[..., G]) -> Callable[..., Lbd]:
+        values = lambda x, args: (*type(self).evaluate(x, args),)
+        return lambda *args: Lbd(lambda x: func(values(x, args)))
 
     @staticmethod
-    def evaluate(
-        args: Iterable[Any],
-        value: Any
-    ) -> Iterable[Any]:
-        arguments = []
-        for arg in args:
-            if isinstance(arg, Lbd):
-                arg = arg(value)
-            arguments.append(arg)
-        return arguments
+    def evaluate(value: Any, args: Iterable[Any]) -> Iterable[Any]:
+        val = PartialWrapper.evaluate_arg
+        return (val(value, arg) for arg in args)
 
+    @staticmethod
+    def evaluate_arg(value: Any, arg: Any):
+        return arg(value) if isinstance(arg, Lbd) else arg

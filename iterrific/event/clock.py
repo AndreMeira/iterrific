@@ -7,13 +7,11 @@ from iterrific.event.lazy import Tick, TimestampTick, Timestamped as Timestamped
 
 def monotonic() -> Generator[Tick, None, None]:
     seq = count()
-    while True:
-        yield Tick(next(seq))
+    while True: yield Tick(next(seq))
 
 
 def timestamp(
     start: Optional[datetime] = None
 ) -> Generator[TimestampTick, None, None]:
     clock = TimestampedClock(start or datetime.now())
-    while True:
-        yield next(clock)
+    while True: yield next(clock)

@@ -50,9 +50,10 @@ class Collector:
         innerid = next(self.sequence)
         self.handlers[innerid] = func
         self.listeners[event].append(innerid)
-        return lambda: self.remove_handler(innerid, event)
+        unsubscribe = self.remove_handler
+        return lambda: unsubscribe(innerid, event)  # type: ignore[misc, return-value]
 
-    def remove_handler(self, innerid: int, event: CollectorEvent):
+    def remove_handler(self, innerid: int, event: CollectorEvent) -> None:
         del self.handlers[innerid]
         self.listeners[event].remove(innerid)
 

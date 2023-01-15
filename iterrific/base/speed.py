@@ -1,15 +1,12 @@
 import time
-from abc import ABC
 from collections.abc import Iterable
-from typing import TypeVar, SupportsFloat
+from typing import TypeVar
 
-from iterrific.base.iter import every
+from iterrific.base.iter import every, process
 
 T = TypeVar('T')
-class Second(SupportsFloat, ABC):...
 
 
-def slow(items: Iterable[T], wait: Second, cycle: int) -> Iterable[T]:
-    return every(items, cycle, do=lambda _: time.sleep(float(wait)))
-
-def c(x:int, y:int): return True
+def slow(items: Iterable[T], wait: float, cycle: int) -> Iterable[T]:
+    stream = every(items=items, cycle=cycle)
+    return process(stream, do=lambda _: time.sleep(wait))

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Set
+from typing import Iterator, Set
 
 
 @dataclass
@@ -96,5 +96,5 @@ class Timestamped:
         except KeyError:
             raise StopIteration
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[TimestampTick]:
         return self
