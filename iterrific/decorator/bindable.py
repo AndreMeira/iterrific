@@ -13,7 +13,7 @@ SplitableParams = Concatenate[Stream[SRC], Rest]
 def bindable(func: Callable[P, Stream[DST]]) -> Callable[P, Stream[DST]]:
     def bind(
         func: Callable[Concatenate[Stream[SRC], Rest], Stream[DST]], 
-        *args:Rest.args, **kwargs: Rest.kwargs
+        *args: Rest.args, **kwargs: Rest.kwargs
     ) -> Callable[[Stream[SRC]], Stream[DST]]:
         return partial(func, *args, **kwargs)
     setattr(func, 'bind', bind)

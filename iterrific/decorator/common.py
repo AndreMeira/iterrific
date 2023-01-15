@@ -9,5 +9,5 @@ G = TypeVar('G')
 Routes: TypeAlias = Stream[tuple[Check[T], Cast[T, G]]]
 
 
-def case(func: Source[Routes[T, G]]) -> Cast[T, G]:
+def routes(func: Source[Routes[T, G]]) -> Cast[T, G]:
     return router(func())
