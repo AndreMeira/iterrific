@@ -3,12 +3,12 @@ from typing import Callable, Generic, Sequence, TypeVar
 
 from iterrific.types.common import Stream, infinite
 from iterrific.base.iter import consume, process
-from iterrific.types.functions import Cast
 
 
 T = TypeVar("T")
 G = TypeVar("G")
 Labels = Sequence[str]
+
 
 class Map(Generic[T, G]):
     handler: Callable[[T], G]
@@ -22,19 +22,24 @@ class Map(Generic[T, G]):
         
 def buzz(i: int) -> Labels:
     return ('Buzz',) if i % 3 else ()
-      
+
+
 def fizz(i: int) -> Labels:
       return ('Fizz',) if i % 5 else ()        
-        
+
+
 def label(i: int) -> Labels:
-    return (*buzz(i), *fizz(i))
+    return *buzz(i), *fizz(i)
+
 
 def labelled_number(i: int) -> tuple[int, Labels]:
-    return (i, label(i))
+    return i, label(i)
+
 
 def print_labelled(labelled: tuple[str, Labels]):
     labels = ''.join(labelled[1])
     print(labels or str(labelled[0]))
+
 
 def main():
     start    = count  # for readiblity only

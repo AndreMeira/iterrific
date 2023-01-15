@@ -1,7 +1,7 @@
 import re
 from math import exp, cos, sin, tan, atan, log, log10, sqrt, acos, asin
-from iterrific.wrapper import LbdWrapper
-from iterrific.wrapper.lbd import PartialWrapper
+from iterrific.deprecated import LbdWrapper
+from iterrific.deprecated.lbd import PartialWrapper
 
 
 Function = LbdWrapper()

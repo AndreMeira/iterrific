@@ -1,6 +1,6 @@
 from typing import Any, Callable, Generic, Iterable, TypeVar, overload
 
-from iterrific.wrapper.lbd import Lbd
+from iterrific.deprecated.lbd import Lbd
 
 
 G = TypeVar("G")
